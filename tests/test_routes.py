@@ -44,7 +44,7 @@ def test_api_get_posts(client, app, db):
         post = BlogPost(title='API Test', content='Content')
         db.session.add(post)
         db.session.commit()
-    response = client.get('/api/posts')
+    response = client.get('/posts')
     assert response.status_code == 200
     data = response.get_json()
     assert 'posts' in data
@@ -57,14 +57,14 @@ def test_api_get_single_post(client, app, db):
         db.session.add(post)
         db.session.commit()
         post_id = post.id
-    response = client.get(f'/api/posts/{post_id}')
+    response = client.get(f'/posts/{post_id}')
     assert response.status_code == 200
     data = response.get_json()
     assert data['post']['title'] == 'API Single'
 
 
 def test_api_create_post(client, app):
-    response = client.post('/api/posts', json={
+    response = client.post('/posts', json={
         'title': 'API Created',
         'content': 'Created content',
         'author': 'API Author'
@@ -75,11 +75,11 @@ def test_api_create_post(client, app):
 
 
 def test_api_create_post_missing_fields(client):
-    response = client.post('/api/posts', json={'title': 'Missing content'})
+    response = client.post('/posts', json={'title': 'Missing content'})
     assert response.status_code == 400
     assert b'error' in response.data
 
 
 def test_api_nonexistent_post(client):
-    response = client.get('/api/posts/99999')
+    response = client.get('/posts/99999')
     assert response.status_code == 404
