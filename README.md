@@ -369,7 +369,7 @@ kubectl describe pod -l app=flask-blog
    ```bash
    kubectl delete secret flask-blog-secrets
    kubectl create secret generic flask-blog-secrets \
-     --from-literal=DATABASE_URL="postgresql://postgres:KES92%40pk@postgres:5432/flask_blog_dev" \
+     --from-literal=DATABASE_URL="postgresql://[Database name]:[Database password]@postgres:5432/flask_blog_dev" \
      --from-literal=SECRET_KEY="dev-secret-key-change-in-prod"
    ```
 
