@@ -43,7 +43,17 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: self-hosted
     steps:
+      - name: Clean runner state
+        run: |
+          git config --global --remove-section submodule 2>/dev/null || true
+          rm -rf .git/modules 2>/dev/null || true
+        continue-on-error: true
+        shell: bash
+
       - uses: actions/checkout@v4
+        with:
+          clean: true
+
       - name: Deploy to minikube
         run: |
           kubectl apply -f k8s/postgres.yaml
