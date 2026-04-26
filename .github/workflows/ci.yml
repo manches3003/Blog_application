@@ -52,12 +52,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build Docker image (no cache, lower bandwidth)
+      - name: Build Docker image (no cache, lower bandwidth) scm-history-item:c%3A%5CDATA_BACKUP%5CALL_LANGUAGES_PROGRAMS%5Cflask-blog?%7B%22repositoryId%22%3A%22scm0%22%2C%22historyItemId%22%3A%22dbc94b7c0614da71d997242320adc460a9a3f8b6%22%2C%22historyItemParentId%22%3A%22df2b769c61a4d333e6d617f591040fcde360a382%22%2C%22historyItemDisplayId%22%3A%22dbc94b7%22%7D     
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/flask-blog:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/flask-blog
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/flask-blog:buildcache
           cache-to: type=inline
           build-args: |
@@ -66,7 +66,7 @@ jobs:
       - name: Pull new image to minikube
         run: |
           echo "Pulling image to minikube..."
-          minikube image pull ${{ secrets.DOCKERHUB_USERNAME }}/flask-blog:latest || true
+          minikube image pull ${{ secrets.DOCKERHUB_USERNAME }}/flask-blog || true
         shell: bash
 
       - name: Deploy to minikube
